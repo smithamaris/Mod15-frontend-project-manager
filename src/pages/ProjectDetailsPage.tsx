@@ -28,7 +28,6 @@ function ProjectDetailsPage() {
     fetchProjectDetails();
   }, [projectId]);
 
-
   useEffect(() => {
     // const fetchProjectTasks = async () => {
     //     try {
