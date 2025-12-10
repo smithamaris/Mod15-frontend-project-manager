@@ -3,7 +3,6 @@ import { AuthContext } from "../context/AuthProvider";
 import { useContext } from "react";
 
 
-
 function Navbar() {
   const auth = useContext(AuthContext);
 

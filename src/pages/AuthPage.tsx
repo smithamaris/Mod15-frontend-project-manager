@@ -9,6 +9,7 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  
 
   // authorization check
   if (!auth) return null;
@@ -22,8 +23,8 @@ function AuthPage() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await auth.logIn(username, password);
     } catch (error: any) {
-      // console.error(error.message);
-      setError(error.message);
+      console.error(error.message);
+      setError(error.response?.data?.message || error.message);
     } finally {
       setLoading(false);
     }
@@ -41,7 +42,7 @@ function AuthPage() {
       setShowRegister(false);
     } catch (error: any) {
       console.error(error.message);
-      setError(error.message);
+      setError(error.response?.data?.message || error.message);
     } finally {
       setLoading(false);
     }
@@ -137,7 +138,7 @@ function AuthPage() {
           </label>
           <input
             type="submit"
-            value="Register"
+            value="Login"
             className="border py-2 px-4 rounded"
           />
 

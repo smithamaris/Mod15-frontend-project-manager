@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import type { User } from "../types";
 import { apiClient } from "../clients/api";
 
@@ -52,8 +52,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   // }, []);
 
   // LOGIN
-  const logIn = async (username: string, password: string) => {
-    const res = await apiClient.post('/api/users/login', { username, password });
+  const logIn = async (email: string, password: string) => {
+    const res = await apiClient.post('/api/users/login', { email, password });
     const { token, user } = res.data;
 
     setUser(user);
@@ -65,7 +65,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
   // REGISTER
   const register = async (username: string, email: string, password: string) => {
-    await apiClient.post('/api/user/register', { username, email, password });
+    await apiClient.post('/api/users/register', { username, email, password });
 
     // After you register, then to auto login
     await logIn(email, password);

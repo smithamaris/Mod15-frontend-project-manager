@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import type { Project } from "../types";
 
 function ProjectDetailsPage() {
+  
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -29,17 +30,19 @@ function ProjectDetailsPage() {
   }, [projectId]);
 
   useEffect(() => {
-    // const fetchProjectTasks = async () => {
-    //     try {
-    //         const tasks = await apiClient.get(`/api/projects/${projectId}/tasks`);
-    //         // state
-    //         // loading error
-    //     } catch (error) {
-    //         console.error(error);
-            
-    //     }
-    // }
-    // fetchProjectTasks()
+  //   const fetchProjectTasks = async () => {
+  //   try {
+  //     setTasksLoading(true);
+  //     const res = await apiClient.get(`/api/projects/${projectId}/tasks`);
+  //     setTasks(res.data);
+  //   } catch (error: any) {
+  //     console.error(error);
+  //     setTasksError(error.message);
+  //   } finally {
+  //     setTasksLoading(false);
+  //   }
+  // };
+  // if (projectId) fetchProjectTasks();
   }, [projectId]);
 
 
