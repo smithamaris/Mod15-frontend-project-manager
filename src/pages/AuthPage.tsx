@@ -48,7 +48,7 @@ function AuthPage() {
   };
 
   return (
-    <div className="text-white flex flex-col items-center justify-center">
+    <div className="text-white flex flex-col items-center justify-center mt-10">
       <h1 className="text-3xl font-bold mt-10 text-center">
         Start managing your projects.
       </h1>
@@ -60,7 +60,7 @@ function AuthPage() {
       {showRegister ? (
         <form
           onSubmit={handleRegister}
-          className="border mt-10 p-2 h-60 w-150 flex flex-col justify-around items-center rounded"
+          className="border p-5 mt-8 rounded w-80 flex flex-col gap-4"
         >
           <div className="text-xl font-bold">Register</div>
 
@@ -110,7 +110,7 @@ function AuthPage() {
       ) : (
         <form
           onSubmit={handleLogin}
-          className="border mt-10 p-2 h-60 w-150 flex flex-col justify-around items-center rounded"
+          className="border p-5 mt-8 rounded w-80 flex flex-col gap-4"
         >
           <div className="text-xl font-bold">Login</div>
           <label htmlFor="email">
