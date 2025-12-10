@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 function AuthPage() {
   const auth = useContext(AuthContext);
@@ -10,7 +11,7 @@ function AuthPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   
-
+const navigation = useNavigate()
   // authorization check
   if (!auth) return null;
 
@@ -21,7 +22,9 @@ function AuthPage() {
       setLoading(true);
       // api call here
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await auth.logIn(username, password);
+      await auth.logIn(email, password);
+      
+      navigation( "/projects")
     } catch (error: any) {
       console.error(error.message);
       setError(error.response?.data?.message || error.message);
