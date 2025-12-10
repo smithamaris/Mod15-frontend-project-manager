@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 
 
 
+
 function Navbar() {
   return (
     <nav className="text-white flex justify-between items-center w-full h-10">

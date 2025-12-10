@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthProvider";
 
 function AuthPage() {
+  const auth = useContext(AuthContext);
   const [showRegister, setShowRegister] = useState(true);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -8,14 +10,19 @@ function AuthPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
+  // authorization check
+  if (!auth) return null;
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       setError("");
       setLoading(true);
       // api call here
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await auth.logIn(username, password);
     } catch (error: any) {
-      console.error(error.message);
+      // console.error(error.message);
       setError(error.message);
     } finally {
       setLoading(false);
@@ -23,11 +30,15 @@ function AuthPage() {
   };
 
   const handleRegister = async () => {
+    e.preventDefault();
     try {
       setError("");
       setLoading(true);
       // api call here
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await auth.register(username, email, password);
+
+      setShowRegister(false);
     } catch (error: any) {
       console.error(error.message);
       setError(error.message);
@@ -43,7 +54,7 @@ function AuthPage() {
       </h1>
 
       {/* ERROR  */}
-      {error && <div>{error}</div>}
+      {error && <div className="mt-4 text-red-400">{error}</div>}
 
       {/* FORM  */}
       {showRegister ? (
