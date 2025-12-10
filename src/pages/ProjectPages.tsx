@@ -7,9 +7,11 @@ function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [updateId, setUpdateId] = useState("");
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const btnValue =  updateId ? "Update Project": "Create Project"
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -33,20 +35,53 @@ function ProjectsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    try {
-      setLoading(true);
-      const res = await apiClient.post("/api/projects", { name, description });
-      setProjects((prev) => [...prev, res.data]);
-    } catch (error: any) {
-      console.error(error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
-      setName("")
-      setDescription("")
+    if (updateId) {
+      try {
+        setLoading(true);
+        if (updateId) {
+          const res = await apiClient.put(`/api/projects/${updateId}`, {
+            name,
+            description,
+          });
+          setProjects((prev) =>
+            prev.map((project) => {
+              if (project._id === updateId) {
+                return res.data;
+              } else {
+                return project;
+              }
+            })
+          );
+        }
+      } catch (error: any) {
+        console.error(error);
+        setError(error.message);
+      } finally {
+        setUpdateId("");
+        setLoading(false);
+        setName("");
+        setDescription("");
+      }
+    } else {
+      try {
+        setLoading(true);
+        const res = await apiClient.post("/api/projects", {
+          name,
+          description,
+        });
+        setProjects((prev) => [...prev, res.data]);
+      } catch (error: any) {
+        console.error(error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+        setName("");
+        setDescription("");
+      }
     }
   };
+
+  // const handleDelete = async
   return (
     <div className="text-white">
       <h1 className="text-4xl font-bold text-white">Projects</h1>
@@ -73,11 +108,11 @@ function ProjectsPage() {
           onChange={(e) => setDescription(e.target.value)}
         />
 
-        <input
+        <button
           type="submit"
           value="Create Project"
           className="mt-auto bg-sky-500 rounded"
-        />
+        > {btnValue} </button>
       </form>
 
       {error && <div>{error}</div>}
@@ -89,6 +124,18 @@ function ProjectsPage() {
               key={project._id}
               className="text-white w-50 flex flex-col h-50 border border-red-500 p-2 text-center rounded"
             >
+              <button
+                onClick={() => {
+                  setUpdateId(project._id);
+                  setName(project.name)
+                  setDescription(project.description)
+                }}
+              >
+                Edit
+              </button>
+
+              <button>Delete</button>
+
               <div className="font-bold">{project.name}</div>
               <div>{project.description}</div>
               <Link
