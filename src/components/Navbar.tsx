@@ -16,8 +16,11 @@ function Navbar() {
 
       <div className="flex gap-4">
         <NavLink to="/auth">Signin/Signup</NavLink>
-      
       </div>
+
+      <div className="flex-gap">Welcome{auth?.user?.username}</div>
+
+      
     </nav>
   );
 }
