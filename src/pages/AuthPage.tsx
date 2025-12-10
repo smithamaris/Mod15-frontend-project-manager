@@ -29,7 +29,7 @@ function AuthPage() {
     }
   };
 
-  const handleRegister = async () => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setError("");
