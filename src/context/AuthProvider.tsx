@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import type { User } from "../types";
+import { apiClient } from "../clients/api";
 
 interface AuthContextType {
   user: User | null;
@@ -50,11 +51,32 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   //   }
   // }, []);
 
-  const logIn = async (username: string, password: string) => {};
+  // LOGIN
+  const logIn = async (username: string, password: string) => {
+    const res = await apiClient.post('/api/users/login', { username, password });
+    const { token, user } = res.data;
 
-  const register = async (username: string, email: string, password: string) => {};
+    setUser(user);
+    setToken(token);
 
-  const logOut = () => {};
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
+  };
+
+  // REGISTER
+  const register = async (username: string, email: string, password: string) => {
+    await apiClient.post('/api/user/register', { username, email, password });
+
+    // After you register, then to auto login
+    await logIn(email, password);
+  };
+
+  const logOut = () => {
+    setUser(null)
+    setToken(null)
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+  };
 
   return (
     <AuthContext.Provider
