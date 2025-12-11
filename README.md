@@ -1,99 +1,67 @@
-# React + TypeScript + Vite
+Project Manager App (MERN):
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1- A description of the project.
+Features
+User registration and login (JWT-based auth)
+GitHub OAuth login (optional)
+Auth-protected API routes
+Project CRUD (create, list, update, delete)
+Task CRUD scoped to a project (create, list, update, delete)
+Ownership checks so users can only access their own data
+React SPA with routing (Home, Auth, Projects, Project Details)
+Task creation and editing per project
+Loading and error feedback in the UI
 
-Currently, two official plugins are available:
+2- Instructions for setting it up and running it locally.
+Created a .env file in the backend folder:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+MONGO_URI=your-mongodb-connection-string
+JWT_SECRET=your-jwt-secret
+FRONTEND_URL=http://localhost:5173
 
-## React Compiler
+# Optional GitHub OAuth
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+GITHUB_CALLBACK_URL=http://localhost:4000/api/users/auth/github/callback
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-// *-To Register a new user go to http://localhost:4000/api/user/register (POST)-*
-{
-    "username": "Shake Shack",
-    "email": "test10@test.com",
-    "password": "password123"
-}
-
-// *- To get Token go to  http:user/login (POST) -*
-Change the URL to login, body stays the same and hit SEND
----copy/paste token into Authorization---
+Create a .env file in the frontend folder:
+VITE_BACKEND_URL=http://localhost:4000
 
 
-// *- To create a note got to api/note (POST) -*
-{
-    "name": "",
-    "description": ""
-}
-
-// *- To update got to api/note/id... (PUT) -*
 
 
-//*- To delete got to api/note/delete (DELETE) -*
+3- A list and description of your API endpoints.
+API Endpoints
+Base URL: http://localhost:4000
+All protected routes require a JWT in the Authorization header: Authorization: Bearer <token>
 
+Auth / Users
+- POST /api/users/register ( 
+  Register a new user.
+Body: { "username": string, "email": string, "password": string }
+Response: created user (password hashed).
+)
+- POST /api/users/login (Login user and receive JWT.
+Body: { "email": string, "password": string }
+Response: { "token": string, "user": User }
+)
+- GET /api/users (protected, admin only)
+Return all users.
+- GET /api/users/:id (Get a single user by id (example route).
+)
+- GET /api/users/auth/github (Start GitHub OAuth flow.
+)
+- GET /api/users/auth/github/callback (OAuth callback; issues JWT and redirects to frontend with ?token=.
+)
+
+Tasks (Protected, ownership-based)
+- POST /api/projects/:projectId/tasks (Create a new task in the given project.
+Body: { "title": string, "description"?: string, "status": "Todo" | "in-progress" | "done" }
+)
+- GET /api/projects/:projectId/tasks (Get all tasks for a project the user owns.
+)
+- PUT /api/tasks/:taskId (Update a task’s details or status (only if it belongs to a project owned by the user).
+Body: { "title"?: string, "description"?: string, "status"?: "Todo" | "in-progress" | "done" }
+)
+- DELETE /api/tasks/:taskId (Delete a task (only if it belongs to a project owned by the user).
+)

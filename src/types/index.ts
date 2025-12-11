@@ -12,8 +12,8 @@ export interface User {
 }
 
 export interface Task {
+  title: string;
   _id: string;
-  name: string;
   description: string;
   status: "Todo" | "in-progress" | "done";
   project: string;

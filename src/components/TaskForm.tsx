@@ -12,11 +12,11 @@ export interface Task {
 
 interface TaskFormProps {
   projectId: string;
-  // If task is provided edit mode, otherwise create mode
+
   task?: Task;
-  // Called with the created/updated task
+
   onSuccess?: (task: Task) => void;
-  // Optional override for button text
+
   submitLabel?: string;
 }
 
@@ -43,32 +43,31 @@ function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
 
       let res;
       if (isEditMode && task?._id) {
-  // UPDATE existing task
-  res = await apiClient.put(`/api/tasks/${task._id}`, {
-    title,
-    description,
-    status,
-  });
-} else {
-  // CREATE new task
-  res = await apiClient.post(`/api/projects/${projectId}/tasks`, {
-    title,
-    description,
-    status,
-  });
-}
+        // UPDATE existing task
+        res = await apiClient.put(`/api/tasks/${task._id}`, {
+          title,
+          description,
+          status,
+        });
+      } else {
+        res = await apiClient.post(`/api/projects/${projectId}/tasks`, {
+          title,
+          description,
+          status,
+        });
+      }
 
       const savedTask: Task = res.data;
       onSuccess?.(savedTask);
 
-      // Only clear form for create mode
+      // Only clear form for the create mode
       if (!isEditMode) {
         setTitle("");
         setDescription("");
         setStatus("todo");
       }
     } catch (err: any) {
-      console.error(err);
+      console.error(error);
       const message =
         err.response?.data?.message || err.message || "Error saving task.";
       setError(message);
@@ -93,7 +92,7 @@ function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
         <input
           className="w-full p-2 rounded bg-slate-900 border border-slate-700 text-white"
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
           required
         />
       </div>
@@ -103,7 +102,7 @@ function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
         <textarea
           className="w-full p-2 rounded bg-slate-900 border border-slate-700 text-white"
           value={description}
-          onChange={e => setDescription(e.target.value)}
+          onChange={(e) => setDescription(e.target.value)}
         />
       </div>
 
@@ -112,7 +111,7 @@ function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
         <select
           className="w-full p-2 rounded bg-slate-900 border border-slate-700 text-white"
           value={status}
-          onChange={e => setStatus(e.target.value as TaskStatus)}
+          onChange={(e) => setStatus(e.target.value as TaskStatus)}
         >
           <option value="todo">To Do</option>
           <option value="in-progress">In Progress</option>
