@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { apiClient } from "../clients/api";
+import type { Task, TaskStatus } from "../types";
 
 type TaskStatus = "todo" | "in-progress" | "done";
 

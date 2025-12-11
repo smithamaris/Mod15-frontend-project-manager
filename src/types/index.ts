@@ -11,10 +11,12 @@ export interface User {
   githubId?: string;
 }
 
+export type TaskStatus = "todo" | "in-progress" | "done";
+
 export interface Task {
-  title: string;
   _id: string;
-  description: string;
-  status: "Todo" | "in-progress" | "done";
+  title: string;
+  description?: string;
+  status: TaskStatus;
   project: string;
 }
