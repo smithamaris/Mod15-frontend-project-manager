@@ -153,7 +153,7 @@ function ProjectsPage() {
 
               <button
                 onClick={() => handleDelete(project._id)}
-                className="bg-red-500 rounded mb-2"
+                className="bg-pink-500 rounded mb-2"
               >
                 Delete
               </button>

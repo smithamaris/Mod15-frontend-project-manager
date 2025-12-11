@@ -10,6 +10,7 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   
 const navigation = useNavigate()
   // authorization check
@@ -20,9 +21,11 @@ const navigation = useNavigate()
     try {
       setError("");
       setLoading(true);
+      if (!email || !password) return;
       // api call here
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await auth.logIn(email, password);
+
       
       navigation( "/projects")
     } catch (error: any) {
