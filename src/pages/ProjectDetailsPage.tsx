@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiClient } from "../clients/api";
 import { useParams } from "react-router-dom";
-import type { Project, Task } from "../types";
+import type { Task, Project } from "../types";
 import TaskForm from "../components/TaskForm";
 
 function ProjectDetailsPage() {

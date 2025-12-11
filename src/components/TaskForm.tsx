@@ -1,23 +1,12 @@
+
 import { useState } from "react";
 import { apiClient } from "../clients/api";
-// import type { Task, TaskStatus } from "../types";
-
-type TaskStatus = "Todo" | "in-progress" | "done";
-
-export interface Task {
-  _id: string;
-  title: string;
-  description?: string;
-  status: TaskStatus;
-}
+import type { Task, TaskStatus } from "../types";
 
 interface TaskFormProps {
   projectId: string;
-
   task?: Task;
-
   onSuccess?: (task: Task) => void;
-
   submitLabel?: string;
 }
 
@@ -27,8 +16,6 @@ function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
   const [status, setStatus] = useState<TaskStatus>(task?.status ?? "Todo");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  
 
   const isEditMode = Boolean(task?._id);
 
@@ -53,6 +40,7 @@ function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
           status,
         });
       } else {
+        // CREATE new task
         res = await apiClient.post(`/api/projects/${projectId}/tasks`, {
           title,
           description,
@@ -63,14 +51,14 @@ function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
       const savedTask: Task = res.data;
       onSuccess?.(savedTask);
 
-      // Only clear form for the create mode
+      // Only clear form in create mode
       if (!isEditMode) {
         setTitle("");
         setDescription("");
         setStatus("Todo");
       }
     } catch (err: any) {
-      console.error(error);
+      console.error(err);
       const message =
         err.response?.data?.message || err.message || "Error saving task.";
       setError(message);
@@ -116,7 +104,7 @@ function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
           value={status}
           onChange={(e) => setStatus(e.target.value as TaskStatus)}
         >
-          <option value="Todo">To Do</option>
+          <option value="todo">To Do</option>
           <option value="in-progress">In Progress</option>
           <option value="done">Done</option>
         </select>
