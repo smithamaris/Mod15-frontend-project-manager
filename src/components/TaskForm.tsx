@@ -114,7 +114,7 @@ function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
           value={status}
           onChange={(e) => setStatus(e.target.value as TaskStatus)}
         >
-          <option value="todo">To Do</option>
+          <option value="Todo">To Do</option>
           <option value="in-progress">In Progress</option>
           <option value="done">Done</option>
         </select>
