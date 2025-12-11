@@ -2,7 +2,7 @@ import { useState } from "react";
 import { apiClient } from "../clients/api";
 import type { Task, TaskStatus } from "../types";
 
-type TaskStatus = "todo" | "in-progress" | "done";
+type TaskStatus = "Todo" | "in-progress" | "done";
 
 export interface Task {
   _id: string;
@@ -24,7 +24,7 @@ interface TaskFormProps {
 function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
   const [title, setTitle] = useState(task?.title ?? "");
   const [description, setDescription] = useState(task?.description ?? "");
-  const [status, setStatus] = useState<TaskStatus>(task?.status ?? "todo");
+  const [status, setStatus] = useState<TaskStatus>(task?.status ?? "Todo");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -65,7 +65,7 @@ function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
       if (!isEditMode) {
         setTitle("");
         setDescription("");
-        setStatus("todo");
+        setStatus("Todo");
       }
     } catch (err: any) {
       console.error(error);

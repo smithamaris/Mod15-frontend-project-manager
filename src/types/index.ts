@@ -11,7 +11,7 @@ export interface User {
   githubId?: string;
 }
 
-export type TaskStatus = "todo" | "in-progress" | "done";
+export type TaskStatus = "Todo" | "in-progress" | "done";
 
 export interface Task {
   _id: string;
