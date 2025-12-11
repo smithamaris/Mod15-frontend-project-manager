@@ -8,8 +8,11 @@ function ProjectDetailsPage() {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  
 
   const { projectId } = useParams();
+
+
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
@@ -29,7 +32,9 @@ function ProjectDetailsPage() {
     fetchProjectDetails();
   }, [projectId]);
 
-  useEffect(() => {
+
+  //------------------------------------------------------------------------------------
+  // useEffect(() => {
   //   const fetchProjectTasks = async () => {
   //   try {
   //     setTasksLoading(true);
@@ -43,8 +48,8 @@ function ProjectDetailsPage() {
   //   }
   // };
   // if (projectId) fetchProjectTasks();
-  }, [projectId]);
-
+  // }, [projectId]);
+//-------------------------------------------------------------------------------------tasks info
 
   if (loading) return <div className="text-3xl text-white">Loading...</div>;
 
