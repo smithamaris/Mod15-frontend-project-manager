@@ -11,7 +11,7 @@ function ProjectsPage() {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const btnValue =  updateId ? "Update Project": "Create Project"
+  const btnValue = updateId ? "Update Project" : "Create Project";
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -82,6 +82,19 @@ function ProjectsPage() {
   };
 
   // const handleDelete = async
+  const handleDelete = async (id: string) => {
+    try {
+      await apiClient.delete(`/api/projects/${id}`);
+      setProjects((prev) =>
+        prev.filter((project) => {
+          return project._id !== id;
+        })
+      );
+    } catch (error: any) {
+      setError(error.message);
+    }
+  };
+
   return (
     <div className="text-white">
       <h1 className="text-4xl font-bold text-white">Projects</h1>
@@ -112,7 +125,10 @@ function ProjectsPage() {
           type="submit"
           value="Create Project"
           className="mt-auto bg-sky-500 rounded"
-        > {btnValue} </button>
+        >
+          {" "}
+          {btnValue}{" "}
+        </button>
       </form>
 
       {error && <div>{error}</div>}
@@ -127,14 +143,20 @@ function ProjectsPage() {
               <button
                 onClick={() => {
                   setUpdateId(project._id);
-                  setName(project.name)
-                  setDescription(project.description)
+                  setName(project.name);
+                  setDescription(project.description);
                 }}
+                className="bg-yellow-500 rounded mb-1"
               >
                 Edit
               </button>
 
-              <button>Delete</button>
+              <button
+                onClick={() => handleDelete(project._id)}
+                className="bg-red-500 rounded mb-2"
+              >
+                Delete
+              </button>
 
               <div className="font-bold">{project.name}</div>
               <div>{project.description}</div>
