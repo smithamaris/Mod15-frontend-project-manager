@@ -13,7 +13,7 @@ Task creation and editing per project
 Loading and error feedback in the UI
 
 2- Instructions for setting it up and running it locally.
-Created a .env file in the backend folder:
+ I created a .env file in the backend folder:
 
 MONGO_URI=your-mongodb-connection-string
 JWT_SECRET=your-jwt-secret
@@ -26,7 +26,6 @@ GITHUB_CALLBACK_URL=http://localhost:4000/api/users/auth/github/callback
 
 Create a .env file in the frontend folder:
 VITE_BACKEND_URL=http://localhost:4000
-
 
 
 
@@ -65,3 +64,6 @@ Body: { "title"?: string, "description"?: string, "status"?: "Todo" | "in-progre
 )
 - DELETE /api/tasks/:taskId (Delete a task (only if it belongs to a project owned by the user).
 )
+
+I had a hard time with the frontend bc I needed to make sure your src/types/index.ts matches this shape:
+After removing the local interface Task and local type TaskStatus from TaskForm.tsx, the “Import declaration conflicts with local declaration” errors will disappear, and the file will use the shared types from src/types/index.ts

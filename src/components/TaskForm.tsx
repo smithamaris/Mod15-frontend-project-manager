@@ -76,7 +76,7 @@ function TaskForm({ projectId, task, onSuccess, submitLabel }: TaskFormProps) {
         {isEditMode ? "Edit Task" : "Add Task"}
       </h2>
 
-      {error && <div className="text-red-400 text-sm">{error}</div>}
+      {error && <div className="text-pink-400 text-sm">{error}</div>}
 
       <div>
         <label className="block text-sm mb-1 text-gray-200">Title</label>
